@@ -1,3 +1,5 @@
+from test import test
+
 def init(n: int):
     """Recoit en argument un entier n (le nombre de disques), et qui renvoie la liste représentant la configuration initiale du plateau"""
     discs = []
@@ -61,15 +63,6 @@ def verifVictoire(plateau: list[list[int] | list], n: int):
 
 
 # TESTS BELOW, DO NOT DELETE
-
-def test(output, expected, testIndex: str | int = ""):
-    if output == expected:
-        print(f"TEST {testIndex} : PASSED")
-    else:
-        print(f"TEST {testIndex} : FAILED")
-        print(f"Expected output : {expected}")
-        print(f"Your output : {output}")
-
 
 if __name__ == "__main__":
     # TESTS
