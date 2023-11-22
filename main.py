@@ -5,6 +5,9 @@ import moves
 import scores_time
 import game
 
+
+# MAIN GAME PROCESS
+
 num_tours = int(input("Entrez le nombre de tours souhaitées : "))
 while num_tours < 2:
     num_tours = int(input("Entrez le nombre de tours souhaitées (sup ou égal à 2) : "))
