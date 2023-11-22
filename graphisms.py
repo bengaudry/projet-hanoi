@@ -3,16 +3,22 @@ from board import posDisque_edited
 from time import sleep
 
 
-def init():
-    dessinePlateau(3)
-    dessineConfig([[3, 2, 1], [], []], 3)
+def init(plateau: list[list[int] | list], n: int):
+    """
+    :param n: Le nombre de disques
+    :return: None
+    """
+    speed(100)
+    dessinePlateau(n)
+    dessineConfig(plateau, n)
     mainloop()
 
-def diametre_disque(disque_n):    #disque_n: numéro du disque de 1 à n
+
+def diametre_disque(disque_n: int):    #disque_n: numéro du disque de 1 à n
     return 40 + (disque_n-1)*30
 
 
-def dessineTour(n, nTour):
+def dessineTour(n: int, nTour: int):
     hauteur_tour = (n+1)*20
     epaisseur_tour = 6
     up()
@@ -30,7 +36,7 @@ def dessineTour(n, nTour):
     pencolor('black')
 
 
-def dessinePlateau(n):
+def dessinePlateau(n: int):
     longueur_plateau = diametre_disque(n)*3 + 20*4
     hauteur_plateau = 20
     #tracé du plateau
@@ -53,11 +59,11 @@ def dessinePlateau(n):
     up()
 
 
-def dessineDisque(nd, plateau, n):
+def dessineDisque(nd: int, plateau: list[list[int] | list], n: int):
     position = posDisque_edited(plateau, nd)   # Contient la tour à l'index 0, et la position dans la tour à l'index 1
     hauteur_disque = 19
     longueur_disque = diametre_disque(nd)
-    #tracé du disque
+    # Tracé du disque
     up()
     goto(-300+20*(position[0]+1)+diametre_disque(n)*(position[0])+(diametre_disque(n)-diametre_disque(nd))/2, -199+20*(position[1]+1))
     down()
@@ -71,25 +77,21 @@ def dessineDisque(nd, plateau, n):
     up()
 
 
-def effaceDisque(nd, plateau, n):
-    #suppresion du disque
+def effaceDisque(nd: int, plateau: list[list[int] | list], n: int):
+    # Suppresion du disque
     pencolor('white')
     dessineDisque(nd, plateau, n)
     pencolor('black')
-    #retraçage de la tour
+    # Retraçage de la tour
     position = posDisque(plateau, nd)
     dessineTour(n, position[0]+1)
 
 
-def dessineConfig(plateau, n):
+def dessineConfig(plateau: list[list[int] | list], n: int):
     for nd in range(n, 0, -1):
         dessineDisque(nd, plateau, n)
 
 
-def effaceTout(plateau, n):
+def effaceTout(plateau: list[list[int] | list], n: int):
     for nd in range(n, 0, -1):
         effaceDisque(nd, plateau, n)
-
-
-if __name__ == "__main__":
-    init()

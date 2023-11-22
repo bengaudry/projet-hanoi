@@ -1,18 +1,15 @@
 import board
 import graphisms
 import interaction
-import moves
-import scores_time
-import game
-
 
 # MAIN GAME PROCESS
 
-num_tours = int(input("Entrez le nombre de tours souhaitées : "))
-while num_tours < 2:
-    num_tours = int(input("Entrez le nombre de tours souhaitées (sup ou égal à 2) : "))
+num_discs = int(input("Entrez le nombre de disques souhaités : "))
+while num_discs < 2:
+    num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
 
-plateau = board.init(num_tours)
+plateau = board.init(num_discs)
+graphisms.init(plateau, num_discs)
 (nombre_essais, victoire) = interaction.boucleJeu(plateau, 3, 7)
 
 if nombre_essais is None and victoire is None:
