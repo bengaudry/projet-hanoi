@@ -52,17 +52,3 @@ def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = -1):
     if maxCoups < 0:
         return (i, True)
     return (i, i <= maxCoups)
-
-
-if __name__ == "__main__":
-    num_tours = int(input("Entrez le nombre de tours souhaitées : "))
-    while num_tours < 2:
-        num_tours = int(input("Entrez le nombre de tours souhaitées (sup ou égal à 2) : "))
-
-    plateau = init(num_tours)
-    (nombre_essais, victoire) = boucleJeu(plateau, 3, 7)
-
-    if nombre_essais is None and victoire is None:
-        print(f"Vous avez abandonné.")
-    else:
-        print(f"Nombre d'essais: {nombre_essais},\nVictoire : {victoire}")
