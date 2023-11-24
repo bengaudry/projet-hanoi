@@ -18,12 +18,24 @@ def lireCoords():
 
     # Si le numéro de départ est -1, on arrête la partie
     if num_start == -1:
-        return (-1, None)
+        if veutArreterJeu():
+            return (-1, None)
+        else:
+            print("D'accord, reprenons la partie !")
+            while num_start != 0 and num_start != 1 and num_start != 2:
+                num_start = int(input("Tour de départ ? (0, 1, 2) "))
 
     while num_arrival != 0 and num_arrival != 1 and num_arrival != 2:
           num_arrival = int(input("Tour d'arrivée ? (0, 1, 2) "))
 
     return (num_start, num_arrival)
+
+
+def veutArreterJeu():
+    inp = -1
+    while inp != "o" and inp != "n":
+        inp = input("Arrêter le jeu ? (o / n) ").lower()
+    return inp == "o"
 
 
 def jouerUnCoup(plateau: list[list[int] | list], n: int):

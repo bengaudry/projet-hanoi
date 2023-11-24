@@ -1,3 +1,5 @@
+import turtle
+
 import board
 import graphisms
 import interaction
@@ -15,7 +17,10 @@ turtle_thread.start()
 
 (nombre_essais, victoire) = interaction.boucleJeu(plateau, 3, 7)
 
+
 if nombre_essais is None and victoire is None:
     print(f"Vous avez abandonné.")
+    turtle.bye()
 else:
     print(f"Nombre d'essais: {nombre_essais},\nVictoire : {victoire}")
+    turtle.bye()

@@ -17,7 +17,7 @@ def init(plateau: list[list[int] | list], n: int):
     bgcolor(BACKGROUND_COLOR)
     dessinePlateau(n, plateau)
     dessineConfig(plateau, n)
-    exitonclick()
+    mainloop()
 
 
 def diametre_disque(disque_n: int):    #disque_n: numéro du disque de 1 à n
@@ -47,7 +47,7 @@ def dessinePlateau(n: int, plateau: list[list[int] | list]):
     hauteur_plateau = 20
     #tracé du plateau
     up()
-    goto(-300, -200)
+    goto(-300, -201)
     down()
     pencolor('burlywood4')
     fillcolor('burlywood4')
