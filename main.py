@@ -1,6 +1,5 @@
 import time
 import turtle
-
 import board
 import graphisms
 import interaction

@@ -42,7 +42,6 @@ def posDisque_edited(plateau, numdisque):
                 return plateau.index(i), i.index(x)    # retourne d'abord la n-tour, et ensuite la n-position dans la tour
 
 
-
 def verifDepl(plateau: list[list[int] | list], nt1: int, nt2: int):
     """Renvoie True si le déplacement est autorisé et False sinon"""
     disc1 = plateau[nt1][len(plateau[nt1]) - 1]
@@ -69,10 +68,7 @@ def verifVictoire(plateau: list[list[int] | list], n: int):
 
 
 
-
-
 # TESTS BELOW, DO NOT DELETE
-
 if __name__ == "__main__":
     # TESTS
 
@@ -106,5 +102,3 @@ if __name__ == "__main__":
     test(verifVictoire([[], [], [4, 3, 2, 1]], 3), False, 17)
     test(verifVictoire([[], [], [1, 2, 3]], 3), False, 18)
     test(verifVictoire([[], [], [4, 3, 2, 1]], 4), True, 19)
-
-

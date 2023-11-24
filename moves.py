@@ -15,7 +15,6 @@ def annulerDernierCoup(coups: dict[int, list[list[int] | list]]):
 
 
 # TESTS
-
 if __name__ == "__main__":
 
     # test fonction dernierCoup

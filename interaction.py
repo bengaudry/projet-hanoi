@@ -1,7 +1,6 @@
 from board import *
 from graphisms import dessineDisque, effaceDisque
 
-
 def askForDiscsNumber():
     num_discs = int(input("Entrez le nombre de disques souhaités : "))
     while num_discs < 2:
@@ -76,7 +75,6 @@ def jouerUnCoup(plateau: list[list[int] | list], n: int):
     dessineDisque(disque_sup, plateau, n)
 
     print(f"Je déplace le disque {disque_sup} de la tour {num_start} à la tour {num_arrival}")
-
 
 
 def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int = None):
