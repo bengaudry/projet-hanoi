@@ -11,7 +11,7 @@ def init(plateau: list[list[int] | list], n: int):
     speed(100)
     dessinePlateau(n)
     dessineConfig(plateau, n)
-    mainloop()
+    exitonclick()
 
 
 def diametre_disque(disque_n: int):    #disque_n: numéro du disque de 1 à n
@@ -60,6 +60,11 @@ def dessinePlateau(n: int):
 
 
 def dessineDisque(nd: int, plateau: list[list[int] | list], n: int):
+    """
+    :param nd: Numero du disque
+    :param plateau: L'état actuel du plateau
+    :param n: Nombre de disques dans le plateau
+    """
     position = posDisque_edited(plateau, nd)   # Contient la tour à l'index 0, et la position dans la tour à l'index 1
     hauteur_disque = 19
     longueur_disque = diametre_disque(nd)
@@ -78,12 +83,17 @@ def dessineDisque(nd: int, plateau: list[list[int] | list], n: int):
 
 
 def effaceDisque(nd: int, plateau: list[list[int] | list], n: int):
+    """
+    :param nd: Numero du disque
+    :param plateau: L'état actuel du plateau
+    :param n: Nombre de disques dans le plateau
+    """
     # Suppresion du disque
     pencolor('white')
     dessineDisque(nd, plateau, n)
     pencolor('black')
     # Retraçage de la tour
-    position = posDisque(plateau, nd)
+    position = posDisque_edited(plateau, nd)
     dessineTour(n, position[0]+1)
 
 

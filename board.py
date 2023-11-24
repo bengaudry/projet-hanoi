@@ -62,6 +62,7 @@ def verifVictoire(plateau: list[list[int] | list], n: int):
 
     if plateau[2] != expectedTower:
         return False
+
     return True
 
 

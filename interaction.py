@@ -1,19 +1,27 @@
 from board import *
 from graphisms import dessineDisque, effaceDisque
 
+
+def askForDiscsNumber():
+    num_discs = int(input("Entrez le nombre de disques souhaités : "))
+    while num_discs < 2:
+        num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
+    return num_discs
+
+
 def lireCoords():
     """Demande le numéro de la tour de départ, et d'arrivée au joueur"""
     num_start = None
     num_arrival = None
     while num_start != 0 and num_start != 1 and num_start != 2 and num_start != -1:
-        num_start = int(input("Entrez le numéro de la tour de départ (0, 1, 2), ou -1 pour stopper le jeu : "))
+        num_start = int(input("Tour de départ ? (0, 1, 2) "))
 
     # Si le numéro de départ est -1, on arrête la partie
     if num_start == -1:
         return (-1, None)
 
     while num_arrival != 0 and num_arrival != 1 and num_arrival != 2:
-          num_arrival = int(input("Entrez le numéro de la tour d'arrivée (0, 1, 2) : "))
+          num_arrival = int(input("Tour d'arrivée ? (0, 1, 2) "))
 
     return (num_start, num_arrival)
 
@@ -30,31 +38,39 @@ def jouerUnCoup(plateau: list[list[int] | list], n: int):
         print("Ce déplacement n'est pas autorisé.\nRéessayez de placer un disque plus petit sur un disque plus grand.")
         (num_start, num_arrival) = lireCoords()
 
+    disque_sup = disqueSup(plateau, num_start)
+
     # On déplace le disque
     start_tower = plateau[num_start]
     arrival_tower = plateau[num_arrival]
 
-    arrival_tower.append(disqueSup(plateau, num_start))
+    effaceDisque(disque_sup, plateau, n)
+
+    arrival_tower.append(disque_sup)
     start_tower.pop(len(start_tower) - 1)
 
-    # effaceDisque()
-    # dessineDisque()
+    dessineDisque(disque_sup, plateau, n)
+
+    print(f"Je déplace le disque {disque_sup} de la tour {num_start} à la tour {num_arrival}")
 
 
-def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = -1):
+
+def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int = -1):
     i = 1
-    print(plateau)
+    print(f"Plateau : {plateau}")
     # On joue tant qu'il reste des essais et que l'on a pas gagné
-    while not verifVictoire(plateau, n) and (maxCoups > 0 and i + 1 <= maxCoups):
+    while not verifVictoire(plateau, n):
+
+        if maxCoups != -1 and i > maxCoups:
+            return (i, False)
+
         coup = jouerUnCoup(plateau, n)
 
         # On arrête le jeu si le joueur veut arrêter
         if coup == "stop":
             return None, None
 
-        print(plateau)
+        print(f"Plateau : {plateau}")
         i += 1
 
-    if maxCoups < 0:
-        return (i, True)
-    return (i, i <= maxCoups)
+    return (i, True)
