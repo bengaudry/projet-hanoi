@@ -39,7 +39,7 @@ def posDisque_edited(plateau, numdisque):
     for i in plateau:
         for x in i:
             if numdisque == x:
-                return plateau.index(i), i.index(x)    #retourne d'abord la n-tour, et ensuite la n-position dans la tour
+                return plateau.index(i), i.index(x)    # retourne d'abord la n-tour, et ensuite la n-position dans la tour
 
 
 
