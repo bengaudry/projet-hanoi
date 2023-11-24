@@ -9,6 +9,18 @@ def askForDiscsNumber():
     return num_discs
 
 
+def askForDifficulty(n: int):
+    difficulties = {}
+    difficulties["simple"] = None
+    difficulties["medium"] = 2 ** n + 1
+    difficulties["hard"] = 2 ** n - 1
+
+    diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    if diff not in difficulties.keys():
+        return difficulties["medium"]
+    return difficulties[diff]
+
+
 def lireCoords():
     """Demande le numéro de la tour de départ, et d'arrivée au joueur"""
     num_start = None
@@ -67,14 +79,20 @@ def jouerUnCoup(plateau: list[list[int] | list], n: int):
 
 
 
-def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int = -1):
-    i = 1
-    print(f"Plateau : {plateau}")
+def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int = None):
+    i = 0
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):
+        if maxCoups is not None and i + 1 > maxCoups:
+            return i, False
 
-        if maxCoups != -1 and i > maxCoups:
-            return (i, False)
+        if maxCoups is None:
+            print(f"\nCoup n°{i+1}")
+        elif maxCoups is not None and maxCoups - i == 1:
+            print(f"\nCoup n°{i+1}. Dernier essai !!")
+        else:
+            print(f"\nCoup n°{i+1}. Il vous reste {maxCoups - i} essais.")
+
 
         coup = jouerUnCoup(plateau, n)
 
@@ -82,7 +100,6 @@ def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int 
         if coup == "stop":
             return None, None
 
-        print(f"Plateau : {plateau}")
         i += 1
 
-    return (i, True)
+    return i, True

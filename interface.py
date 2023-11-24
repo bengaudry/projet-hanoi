@@ -1,10 +1,11 @@
 from turtle import *
 from board import posDisque_edited
+from time import sleep
 
 # CONSTANTS
 BACKGROUND_COLOR = "AntiqueWhite"
+DISC_COLOR = "black"
 EPAISSEUR_DISQUE = 20
-DISC_COLORS = ["aquamarine", "blue2", "BlueViolet", "brown1", "CadetBlue2", "chartreuse2", "chocolate1", "coral2", "CornflowerBlue", "DeepPink", "DarkOrchid"]
 
 
 def init(plateau: list[list[int] | list], n: int):
@@ -12,7 +13,6 @@ def init(plateau: list[list[int] | list], n: int):
     :param n: Le nombre de disques
     :return: None
     """
-    clearscreen()
     speed(10)
     bgcolor(BACKGROUND_COLOR)
     dessinePlateau(n, plateau)
@@ -65,15 +65,12 @@ def dessinePlateau(n: int, plateau: list[list[int] | list]):
     up()
 
 
-def dessineDisque(nd: int, plateau: list[list[int] | list], n: int, fill_color: str = None):
+def dessineDisque(nd: int, plateau: list[list[int] | list], n: int, fill_color: str = DISC_COLOR):
     """
     :param nd: Numero du disque à dessiner
     :param plateau: L'état actuel du plateau
     :param n: Nombre de disques dans le plateau
     """
-    if fill_color is None:
-        fill_color = DISC_COLORS[nd]
-
     position = posDisque_edited(plateau, nd)   # Contient la tour à l'index 0, et la position dans la tour à l'index 1
     longueur_disque = diametre_disque(nd)
     # Tracé du disque
@@ -104,17 +101,18 @@ def effaceDisque(nd: int, plateau: list[list[int] | list], n: int):
 
     # Retraçage de la tour
     (n_tour, pos_tour) = posDisque_edited(plateau, nd)
+    print(n_tour, pos_tour)
     dessineTour(n, plateau, n_tour+1)
 
     # On redessine les disques restants sur la tour pour éviter que la tour "passe devant" eux
     for n_disque in range(0, len(plateau[n_tour]) - 1):
         disc = plateau[n_tour][n_disque]
-        dessineDisque(disc, plateau, n)
+        dessineDisque(disc, plateau, n, DISC_COLOR)
 
 
 def dessineConfig(plateau: list[list[int] | list], n: int):
     for nd in range(n, 0, -1):
-        dessineDisque(nd, plateau, n, DISC_COLORS[nd])
+        dessineDisque(nd, plateau, n)
 
 
 def effaceTout(plateau: list[list[int] | list], n: int):
