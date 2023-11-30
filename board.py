@@ -36,16 +36,27 @@ def posDisque(plateau: list[list[int] | list], numdisque: int):
 
 
 def posDisque_edited(plateau, numdisque):
-    for i in plateau:
-        for x in i:
-            if numdisque == x:
-                return plateau.index(i), i.index(x)    # retourne d'abord la n-tour, et ensuite la n-position dans la tour
+    for tour in plateau:
+        for disc in tour:
+            if numdisque == disc:
+                return plateau.index(tour), tour.index(disc)    # retourne d'abord la n-tour, et ensuite la n-position dans la tour
 
 
 def verifDepl(plateau: list[list[int] | list], nt1: int, nt2: int):
     """Renvoie True si le déplacement est autorisé et False sinon"""
-    disc1 = plateau[nt1][len(plateau[nt1]) - 1]
-    if len(plateau[nt1]) > 0 and (len(plateau[nt2]) == 0 or plateau[nt2][len(plateau[nt2]) - 1] > disc1):
+    # Si il n'y a pas de disques sur la tour de départ, erreur
+    if len(plateau[nt1]) < 1:
+        return False
+
+    if len(plateau[nt2]) == 0:
+        return True
+
+    if len(plateau[nt2]) > 0:
+        disc1 = plateau[nt1][len(plateau[nt1]) - 1]
+        disc2 = plateau[nt2][len(plateau[nt2]) - 1]
+        # Si le disque sur la tour d'arrivée est plus petit que celui sur la tour de départ, erreur
+        if disc2 < disc1:
+            return False
         return True
     return False
 

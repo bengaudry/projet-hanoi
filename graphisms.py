@@ -7,16 +7,8 @@ EPAISSEUR_DISQUE = 20
 DISC_COLORS = ["aquamarine", "blue2", "BlueViolet", "brown1", "CadetBlue2", "chartreuse2", "chocolate1", "coral2", "CornflowerBlue", "DeepPink", "DarkOrchid"]
 
 
-def init(plateau: list[list[int] | list], n: int):
-    """
-    :param n: Le nombre de disques
-    :return: None
-    """
+def init():
     clearscreen()
-    speed(10)
-    bgcolor(BACKGROUND_COLOR)
-    dessinePlateau(n, plateau)
-    dessineConfig(plateau, n)
     mainloop()
 
 
@@ -24,7 +16,7 @@ def diametre_disque(disque_n: int):    #disque_n: numéro du disque de 1 à n
     return 40 + (disque_n-1)*30
 
 
-def dessineTour(n: int, plateau: list[list[int]], nTour: int):
+def dessineTour(n: int, plateau, nTour: int):
     hauteur_tour = (n+1)*20
     epaisseur_tour = 6
     up()
@@ -118,5 +110,27 @@ def dessineConfig(plateau: list[list[int] | list], n: int):
 
 
 def effaceTout(plateau: list[list[int] | list], n: int):
-    for nd in range(n, 0, -1):
-        effaceDisque(nd, plateau, n)
+    for tour in range(len(plateau)):
+        for disque in plateau[tour]:
+            effaceDisque(disque, plateau, n)
+
+
+def resetPlateau(nouveauPlateau: list[list[int] | list], n:int):
+    clearscreen()
+    speed("fastest")
+    bgcolor(BACKGROUND_COLOR)
+    dessinePlateau(n, nouveauPlateau)
+    dessineConfig(nouveauPlateau, n)
+
+
+if __name__ == "__main__":
+    plateau = [[5, 4, 3, 2, 1], [], []]
+    speed("fastest")
+    bgcolor(BACKGROUND_COLOR)
+    dessinePlateau(5, plateau)
+    dessineConfig(plateau, 5)
+    effaceDisque(1, [[5, 4, 3, 2, 1], [], []], 5)
+    dessineDisque(1, [[5, 4, 3, 2], [], [1]], 5)
+    effaceDisque(2, [[5, 4, 3, 2], [], [1]], 5)
+    dessineDisque(2, [[5, 4, 3], [2], [1]], 5)
+    exitonclick()

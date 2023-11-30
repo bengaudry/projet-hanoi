@@ -25,18 +25,21 @@ clear = lambda: os.system("cls")
 # MAIN GAME PROCESS
 still_playing = True
 
+# Launching the graphical ui asynchronously
+turtle_thread = threading.Thread(target=lambda: graphisms.init())
+turtle_thread.start()
+
+
 while still_playing:
     print("Bienvenue dans les Tours de Hanoi")
     num_discs = interaction.askForDiscsNumber()
     plateau = board.init(num_discs)
     max_coups = interaction.askForDifficulty(num_discs)
 
-    # Launching the graphical ui asynchronously
-    turtle_thread = threading.Thread(target=lambda: graphisms.init(plateau, num_discs))
-    turtle_thread.start()
+    graphisms.resetPlateau(plateau, num_discs)
 
     time_start = time.localtime()
-    (nombre_essais, victoire) = interaction.boucleJeu(plateau, 3, 7, max_coups)
+    (nombre_essais, victoire) = interaction.boucleJeu(plateau, num_discs, 7, max_coups)
     time_end = time.localtime()
 
     if nombre_essais is None and victoire is None:

@@ -1,7 +1,9 @@
 from board import *
-from graphisms import dessineDisque, effaceDisque
+from graphisms import dessineDisque, effaceDisque, resetPlateau, effaceTout, dessineConfig
+from copy import deepcopy
 
 def askForDiscsNumber():
+    """Demande le nombre de disques que le joueur souhaite sur le plateau"""
     num_discs = int(input("Entrez le nombre de disques souhaités : "))
     while num_discs < 2:
         num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
@@ -9,6 +11,7 @@ def askForDiscsNumber():
 
 
 def askForDifficulty(n: int):
+    """Demande la difficulté souhaitée au joueur"""
     difficulties = {}
     difficulties["simple"] = None
     difficulties["medium"] = 2 ** n + 1
@@ -43,13 +46,14 @@ def lireCoords():
 
 
 def veutArreterJeu():
+    """Demande une confirmation au joueur quand il veut arrêter le jeu"""
     inp = -1
     while inp != "o" and inp != "n":
         inp = input("Arrêter le jeu ? (o / n) ").lower()
     return inp == "o"
 
 
-def jouerUnCoup(plateau: list[list[int] | list], n: int):
+def jouerUnCoup(plateau: list[list[int]], n: int):
     (num_start, num_arrival) = lireCoords()
 
     # Si le numéro de départ est -1, on arrête la partie
@@ -61,18 +65,22 @@ def jouerUnCoup(plateau: list[list[int] | list], n: int):
         print("Ce déplacement n'est pas autorisé.\nRéessayez de placer un disque plus petit sur un disque plus grand.")
         (num_start, num_arrival) = lireCoords()
 
-    disque_sup = disqueSup(plateau, num_start)
 
     # On déplace le disque
+    ancien_plateau = deepcopy(plateau)
+    print("ancien_plateau", ancien_plateau)
     start_tower = plateau[num_start]
     arrival_tower = plateau[num_arrival]
 
-    effaceDisque(disque_sup, plateau, n)
+    disque_sup = disqueSup(ancien_plateau, num_start)
 
     arrival_tower.append(disque_sup)
-    start_tower.pop(len(start_tower) - 1)
+    plateau[num_start].pop(len(start_tower) - 1)
 
+    print(disque_sup, n)
+    effaceDisque(disque_sup, ancien_plateau, n)
     dessineDisque(disque_sup, plateau, n)
+    print("nouveau_plateau", plateau)
 
     print(f"Je déplace le disque {disque_sup} de la tour {num_start} à la tour {num_arrival}")
 
@@ -81,9 +89,11 @@ def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int 
     i = 0
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):
+        # Si le joueur à épuisé tous ses coups, on arrête le jeu
         if maxCoups is not None and i + 1 > maxCoups:
             return i, False
 
+        # On affiche le nombre de coups restants si le nombre de coups max est défini
         if maxCoups is None:
             print(f"\nCoup n°{i+1}")
         elif maxCoups is not None and maxCoups - i == 1:
@@ -91,13 +101,10 @@ def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int 
         else:
             print(f"\nCoup n°{i+1}. Il vous reste {maxCoups - i} essais.")
 
-
         coup = jouerUnCoup(plateau, n)
 
         # On arrête le jeu si le joueur veut arrêter
         if coup == "stop":
             return None, None
-
         i += 1
-
     return i, True
