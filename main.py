@@ -3,6 +3,7 @@ import turtle
 import board
 import graphisms
 import interaction
+import auto_play
 import threading
 import os
 
@@ -32,14 +33,29 @@ turtle_thread.start()
 
 while still_playing:
     print("Bienvenue dans les Tours de Hanoi")
+    # On récupère le nombre de disques sur le plateau que le joueur souhaite
     num_discs = interaction.askForDiscsNumber()
     plateau = board.init(num_discs)
-    max_coups = interaction.askForDifficulty(num_discs)
 
+    # On demande au joueur s'il veut jouer en mode automatique
+    jeu_auto = interaction.askForAutoPlay()
+
+    # On reset le plateau graphique (turtle)
     graphisms.resetPlateau(plateau, num_discs)
 
+    # On récupère la date de démarrage du jeu
     time_start = time.localtime()
-    (nombre_essais, victoire) = interaction.boucleJeu(plateau, num_discs, 7, max_coups)
+
+    # BOUCLE PRINCIPALE
+    if jeu_auto:
+        (nombre_essais, victoire) = auto_play.boucleJeuAuto(plateau, num_discs)
+    else:
+        # On définit le nombre de coups max selon la difficulté choisie par le joueur
+        max_coups = interaction.askForDifficulty(num_discs)
+        (nombre_essais, victoire) = interaction.boucleJeu(plateau, num_discs, max_coups)
+
+
+    # On récupère la date d'arrivée du jeu
     time_end = time.localtime()
 
     if nombre_essais is None and victoire is None:
@@ -56,5 +72,8 @@ while still_playing:
     ask_still_playing = input("\nRejouer ? (o / n) ")
     still_playing = ask_still_playing.lower() == "o"
     clear()
+
+# On quitte l'interface graphique
 turtle.bye()
 print("Au revoir !")
+quit()

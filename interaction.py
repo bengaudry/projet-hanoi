@@ -10,6 +10,13 @@ def askForDiscsNumber():
     return num_discs
 
 
+def askForAutoPlay():
+    """Demande au joueur s'il souhaite que le jeu se déroule automatiquement"""
+    auto = None
+    while auto != "o" and auto != "n":
+        auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
+    return auto == "o"
+
 def askForDifficulty(n: int):
     """Demande la difficulté souhaitée au joueur"""
     difficulties = {}
@@ -53,8 +60,9 @@ def veutArreterJeu():
     return inp == "o"
 
 
-def jouerUnCoup(plateau: list[list[int]], n: int):
-    (num_start, num_arrival) = lireCoords()
+def jouerUnCoup(plateau: list[list[int]], n: int, num_start=None, num_arrival=None):
+    if num_start is None and num_arrival is None:
+        (num_start, num_arrival) = lireCoords()
 
     # Si le numéro de départ est -1, on arrête la partie
     if (num_start == -1 and num_arrival is None):
@@ -68,7 +76,6 @@ def jouerUnCoup(plateau: list[list[int]], n: int):
 
     # On déplace le disque
     ancien_plateau = deepcopy(plateau)
-    print("ancien_plateau", ancien_plateau)
     start_tower = plateau[num_start]
     arrival_tower = plateau[num_arrival]
 
@@ -80,12 +87,11 @@ def jouerUnCoup(plateau: list[list[int]], n: int):
     print(disque_sup, n)
     effaceDisque(disque_sup, ancien_plateau, n)
     dessineDisque(disque_sup, plateau, n)
-    print("nouveau_plateau", plateau)
 
     print(f"Je déplace le disque {disque_sup} de la tour {num_start} à la tour {num_arrival}")
 
 
-def boucleJeu(plateau: list[list[int] | list], n: int, num_discs, maxCoups: int = None):
+def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
     i = 0
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):
