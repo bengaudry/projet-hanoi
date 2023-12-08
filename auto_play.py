@@ -1,6 +1,7 @@
 import graphisms
 import interaction
 
+
 def hanoiAuto(n, depart, intermediaire, arrivee, coups):
     if n == 1:
         coups.append((depart, arrivee))
@@ -18,20 +19,31 @@ def animeCoupsAuto(coups_auto, plateau, n):
 
 def boucleJeuAuto(plateau: list[list[int] | list], n: int):
     i = 0
-    auto_moves = {
-        2: [(0, 1), (0, 2), (1, 2)],
-        3: [(0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2)],
-        4: [(0, 1), (0, 2), (1, 2), (0, 1), (2, 0), (2, 1), (0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (1, 2), (0, 1), (0, 2), (1, 2)],
-        5: [(0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2), (0, 1), (2, 1), (2, 0), (1, 0), (2, 1), (0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2), (1, 2), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2), (0, 1), (2, 1), (2, 0), (1, 0), (2, 1), (0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2), (0, 1), (2, 1), (0, 2), (1, 0), (1, 2), (0, 2)],
-    }
+    auto_moves = []
+    hanoi(n, 0, 2, 1, auto_moves)
+    print(auto_moves)
 
     print("Mode de jeu : automatique")
 
     # On joue tant qu'il reste des essais et que l'on a pas gagné
-    for (depart, arrivee) in auto_moves[n]:
+    for (depart, arrivee) in auto_moves:
         # On affiche le nombre de coups restants si le nombre de coups max est défini
         interaction.jouerUnCoup(plateau, n, depart, arrivee)
-    return len(auto_moves[n]), True
+    return len(auto_moves), True
 
 
 
+def hanoi (nb_disques, depart, arrivee, intermediaire, deplacements):
+    if deplacements is None:
+        deplacements = []
+
+    if nb_disques > 0:
+        hanoi(nb_disques-1, depart, intermediaire, arrivee, deplacements)
+        print(f"Deplacement de {depart} vers {arrivee}")
+        deplacements.append((depart, arrivee))
+        hanoi(nb_disques-1, intermediaire, arrivee, depart, deplacements)
+
+if __name__ == "__main__":
+    deplacements = []
+    hanoi(3, 0, 2, 1, deplacements)
+    print(deplacements)

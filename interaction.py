@@ -1,4 +1,5 @@
 import coups
+import turtle
 from board import *
 from graphisms import dessineDisque, effaceDisque, resetPlateau, effaceTout, dessineConfig
 from copy import deepcopy
@@ -9,16 +10,16 @@ def askForDiscsNumber():
     # num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités : ")
     while num_discs < 2:
         num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
-        # num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités (sup ou égal à 2) : ")
+#         num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités (sup ou égal à 2) : ")
     return int(num_discs)
 
 
 def askForAutoPlay():
     """Demande au joueur s'il souhaite que le jeu se déroule automatiquement"""
-    auto = None
+    auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
     while auto != "o" and auto != "n":
-        auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
-        # auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
+        # auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
+        auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
     return auto == "o"
 
 def askForDifficulty(n: int):
@@ -28,8 +29,8 @@ def askForDifficulty(n: int):
     difficulties["medium"] = 2 ** n + 1
     difficulties["hard"] = 2 ** n - 1
 
-    diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
-    # diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    # diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
     if diff not in difficulties.keys():
         return difficulties["medium"]
     return difficulties[diff]
