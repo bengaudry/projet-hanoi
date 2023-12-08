@@ -1,3 +1,5 @@
+import turtle
+
 from board import *
 from graphisms import dessineDisque, effaceDisque, resetPlateau, effaceTout, dessineConfig
 from copy import deepcopy
@@ -5,9 +7,11 @@ from copy import deepcopy
 def askForDiscsNumber():
     """Demande le nombre de disques que le joueur souhaite sur le plateau"""
     num_discs = int(input("Entrez le nombre de disques souhaités : "))
+    # num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités : ")
     while num_discs < 2:
         num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
-    return num_discs
+        # num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités (sup ou égal à 2) : ")
+    return int(num_discs)
 
 
 def askForAutoPlay():
@@ -15,6 +19,7 @@ def askForAutoPlay():
     auto = None
     while auto != "o" and auto != "n":
         auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
+        # auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
     return auto == "o"
 
 def askForDifficulty(n: int):
@@ -25,6 +30,7 @@ def askForDifficulty(n: int):
     difficulties["hard"] = 2 ** n - 1
 
     diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    # diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
     if diff not in difficulties.keys():
         return difficulties["medium"]
     return difficulties[diff]
@@ -84,11 +90,20 @@ def jouerUnCoup(plateau: list[list[int]], n: int, num_start=None, num_arrival=No
     arrival_tower.append(disque_sup)
     plateau[num_start].pop(len(start_tower) - 1)
 
-    print(disque_sup, n)
     effaceDisque(disque_sup, ancien_plateau, n)
     dessineDisque(disque_sup, plateau, n)
 
     print(f"Je déplace le disque {disque_sup} de la tour {num_start} à la tour {num_arrival}")
+
+
+def afficheCoupsRestants(coups, maxCoups):
+    # On affiche le nombre de coups restants si le nombre de coups max est défini
+    if maxCoups is None:
+        print(f"\nCoup n°{coups + 1}")
+    elif maxCoups is not None and maxCoups - coups == 1:
+        print(f"\nCoup n°{coups + 1}. Dernier essai !!")
+    else:
+        print(f"\nCoup n°{coups + 1}. Il vous reste {maxCoups - coups} essais.")
 
 
 def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
@@ -99,13 +114,7 @@ def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
         if maxCoups is not None and i + 1 > maxCoups:
             return i, False
 
-        # On affiche le nombre de coups restants si le nombre de coups max est défini
-        if maxCoups is None:
-            print(f"\nCoup n°{i+1}")
-        elif maxCoups is not None and maxCoups - i == 1:
-            print(f"\nCoup n°{i+1}. Dernier essai !!")
-        else:
-            print(f"\nCoup n°{i+1}. Il vous reste {maxCoups - i} essais.")
+        afficheCoupsRestants(i, maxCoups)
 
         coup = jouerUnCoup(plateau, n)
 

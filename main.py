@@ -5,7 +5,6 @@ import graphisms
 import interaction
 import auto_play
 import threading
-import os
 
 
 def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
@@ -20,16 +19,14 @@ def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
         return f"{round(diff / 60)} minutes"
 
 
-clear = lambda: os.system("cls")
-
-
 # MAIN GAME PROCESS
 still_playing = True
 
-# Launching the graphical ui asynchronously
+# On lance la fenêtre graphique turtle de manière asynchrone
 turtle_thread = threading.Thread(target=lambda: graphisms.init())
 turtle_thread.start()
-
+turtle.title("Tours de Hanoi")
+turtle.hideturtle()
 
 while still_playing:
     print("Bienvenue dans les Tours de Hanoi")
@@ -54,13 +51,13 @@ while still_playing:
         max_coups = interaction.askForDifficulty(num_discs)
         (nombre_essais, victoire) = interaction.boucleJeu(plateau, num_discs, max_coups)
 
-
     # On récupère la date d'arrivée du jeu
     time_end = time.localtime()
 
-    if nombre_essais is None and victoire is None:
+    # Gestion de la fin du jeu
+    if nombre_essais is None and victoire is None: # Le joueur à abandonné
         print(f"\nVous avez abandonné au bout de {formatDuration(time_start, time_end)}.")
-    else:
+    else: # Le joueur à terminé le jeu (gagné ou perdu)
         if victoire:
             print("\nBravo vous avez gagné !")
         else:
@@ -71,7 +68,6 @@ while still_playing:
 
     ask_still_playing = input("\nRejouer ? (o / n) ")
     still_playing = ask_still_playing.lower() == "o"
-    clear()
 
 # On quitte l'interface graphique
 turtle.bye()
