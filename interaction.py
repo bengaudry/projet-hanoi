@@ -106,27 +106,30 @@ def afficheCoupsRestants(coups, maxCoups):
 
 
 def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
-    coupsRestants = 0
-    coupsJoues = { 0: plateau }
+    coupsJoues = 0
+    historiqueCoups = { 0: [row[:] for row in plateau] }
+    print(plateau, "plateau original")
+
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):
         # Si le joueur à épuisé tous ses coups, on arrête le jeu
         if maxCoups is not None and maxCoups + 1 > maxCoups:
-            return coupsRestants, False
+            return coupsJoues, False
 
-        afficheCoupsRestants(coupsRestants, maxCoups)
+        afficheCoupsRestants(coupsJoues, maxCoups)
         coup = jouerUnCoup(plateau, n)
 
-        coupsJoues[len(coupsJoues)] = plateau
+        # On rajoute la configuration actuelle du plateau dans historiqueCoups en faisant une copie de la liste plateau
+        historiqueCoups[len(historiqueCoups)] = [row[:] for row in plateau]
 
-        print(coupsJoues)
-
+        # On demande si le joueur veut annuler son coup, et on l'annule si oui
         annulerCoup = input("Voulez vous annuler ce coup ? (o/n) ")
         if annulerCoup == "o":
-            coups.annulerDernierCoup(coupsJoues)
+            plateau = coups.annulerDernierCoup(historiqueCoups)[coupsJoues]
+            coupsJoues -= 1
 
         # On arrête le jeu si le joueur veut arrêter
         if coup == "stop":
             return None, None
-        coupsRestants += 1
-    return coupsRestants, True
+        coupsJoues += 1
+    return coupsJoues, True
