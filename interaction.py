@@ -1,5 +1,4 @@
-import turtle
-
+import coups
 from board import *
 from graphisms import dessineDisque, effaceDisque, resetPlateau, effaceTout, dessineConfig
 from copy import deepcopy
@@ -107,19 +106,27 @@ def afficheCoupsRestants(coups, maxCoups):
 
 
 def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
-    i = 0
+    coupsRestants = 0
+    coupsJoues = { 0: plateau }
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):
         # Si le joueur à épuisé tous ses coups, on arrête le jeu
-        if maxCoups is not None and i + 1 > maxCoups:
-            return i, False
+        if maxCoups is not None and maxCoups + 1 > maxCoups:
+            return coupsRestants, False
 
-        afficheCoupsRestants(i, maxCoups)
-
+        afficheCoupsRestants(coupsRestants, maxCoups)
         coup = jouerUnCoup(plateau, n)
+
+        coupsJoues[len(coupsJoues)] = plateau
+
+        print(coupsJoues)
+
+        annulerCoup = input("Voulez vous annuler ce coup ? (o/n) ")
+        if annulerCoup == "o":
+            coups.annulerDernierCoup(coupsJoues)
 
         # On arrête le jeu si le joueur veut arrêter
         if coup == "stop":
             return None, None
-        i += 1
-    return i, True
+        coupsRestants += 1
+    return coupsRestants, True
