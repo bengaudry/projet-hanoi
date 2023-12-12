@@ -4,7 +4,6 @@ import board
 import graphisms
 import interaction
 import auto_play
-import threading
 import score
 
 
@@ -16,9 +15,7 @@ def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
 # MAIN GAME PROCESS
 still_playing = True
 
-# On lance la fenêtre graphique turtle de manière asynchrone
-turtle_thread = threading.Thread(target=lambda: graphisms.init())
-turtle_thread.start()
+# On lance la fenêtre graphique turtle
 turtle.title("Tours de Hanoi")
 turtle.hideturtle()
 
@@ -67,7 +64,7 @@ while still_playing:
 
         #Affichage du tableau des scores
         if input("\nAfficher le tableau des scores ? (o / n) ") == 'o':
-            nb_disques = int(input("Afficher les parties à combien de disques ? "))
+            nb_disques = int(input("Pour combien de disques ? "))
             score.affichageScore(scores_joueurs, nb_disques)
 
         #Affichage du tableau des temps de réflexion
@@ -77,7 +74,10 @@ while still_playing:
     ask_still_playing = input("\nRejouer ? (o / n) ")
     still_playing = ask_still_playing.lower() == "o"
 
-# On quitte l'interface graphique
-turtle.bye()
-print("Au revoir !")
-quit()
+    # On quitte l'interface graphique
+    if not still_playing:
+        turtle.bye()
+        print("Au revoir !")
+        quit()
+
+
