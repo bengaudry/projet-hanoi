@@ -11,15 +11,6 @@ import score
 def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
     diff = (time_end.tm_sec + time_end.tm_min * 60 + time_end.tm_hour * 3600) -(time_start.tm_sec + time_start.tm_min * 60 + time_start.tm_hour * 3600)
     return round(diff/60, 1)
-    """ if diff == 1:
-        return f"1 seconde"
-    elif diff < 60:
-        return f"{diff} secondes"
-    elif int(diff / 60) == 1:
-        return f"1 minute"
-    else:
-        return f"{round(diff / 60)} minutes"
-        """
 
 
 # MAIN GAME PROCESS
@@ -31,7 +22,7 @@ turtle_thread.start()
 turtle.title("Tours de Hanoi")
 turtle.hideturtle()
 
-#Création du dictionnaire des scores pour les prochaines parties
+# Création du dictionnaire des scores pour les prochaines parties
 scores_joueurs = {}
 
 while still_playing:
