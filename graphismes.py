@@ -1,5 +1,5 @@
 from turtle import *
-from board import posDisque_edited
+from plateau import posDisque_edited
 
 # CONSTANTS
 BACKGROUND_COLOR = "AntiqueWhite"

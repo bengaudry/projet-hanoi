@@ -9,21 +9,21 @@ def init(n: int):
     return [discs, [], []]
 
 
-def nbDisques(plateau: list[list[int] | list], numtour: int):
+def nbDisques(plateau: list[list[int]], numtour: int):
     """Renvoie le nombre de disques sur la tour indiquée"""
     if 0 < numtour > 2:
         return f"ERROR : Numtour must be between 0 and 2"
     return len(plateau[numtour])
 
 
-def disqueSup(plateau: list[list[int] | list], numtour: int):
+def disqueSup(plateau: list[list[int]], numtour: int):
     """Renvoie le numéro du disque au sommet de la tour indiquée"""
     if not plateau[numtour] or len(plateau[numtour]) == 0:
         return -1
     return plateau[numtour][len(plateau[numtour]) - 1]
 
 
-def posDisque(plateau: list[list[int] | list], numdisque: int):
+def posDisque(plateau: list[list[int]], numdisque: int):
     """Renvoie le numéro de la tour sur laquelle se trouve un disque"""
     if numdisque in plateau[0]:
         return 0
@@ -42,7 +42,7 @@ def posDisque_edited(plateau, numdisque):
                 return plateau.index(tour), tour.index(disc)    # retourne d'abord la n-tour, et ensuite la n-position dans la tour
 
 
-def verifDepl(plateau: list[list[int] | list], nt1: int, nt2: int):
+def verifDepl(plateau: list[list[int]], nt1: int, nt2: int):
     """Renvoie True si le déplacement est autorisé et False sinon"""
     # Si il n'y a pas de disques sur la tour de départ, erreur
     if len(plateau[nt1]) < 1:
@@ -61,7 +61,7 @@ def verifDepl(plateau: list[list[int] | list], nt1: int, nt2: int):
     return False
 
 
-def verifVictoire(plateau: list[list[int] | list], n: int):
+def verifVictoire(plateau: list[list[int]], n: int):
     """Renvoie True si la victoire a été atteinte et False sinon"""
     if len(plateau[0]) > 0 or len(plateau[1]) > 0:
         return False

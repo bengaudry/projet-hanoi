@@ -1,7 +1,7 @@
 from test import test
-import graphisms
+import graphismes
 
-def dernierCoup(coups: dict[int, list[list[int] | list]]):
+def dernierCoup(coups: dict[int, list[list[int]]]):
     if (len(coups) < 2):
         return None
 
@@ -26,8 +26,8 @@ def annulerDernierCoup(coups: dict[int, list[list[int]]]):
         nb_disques += len(i)
 
     # annulation du dernier coup
-    graphisms.effaceDisque(n_disque, dernier_coup, nb_disques)
-    graphisms.dessineDisque(n_disque, avant_dernier, nb_disques)
+    graphismes.effaceDisque(n_disque, dernier_coup, nb_disques)
+    graphismes.dessineDisque(n_disque, avant_dernier, nb_disques)
     del coups[len(coups) - 1]
 
     return coups

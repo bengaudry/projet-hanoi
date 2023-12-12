@@ -1,16 +1,14 @@
 import coups
 import turtle
-from board import *
-from graphisms import dessineDisque, effaceDisque, resetPlateau, effaceTout, dessineConfig
+from plateau import *
+from graphismes import dessineDisque, effaceDisque
 from copy import deepcopy
 
 def askForDiscsNumber():
     """Demande le nombre de disques que le joueur souhaite sur le plateau"""
-    num_discs = int(input("Entrez le nombre de disques souhaités : "))
-    # num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités : ")
+    num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités : ")
     while num_discs < 2:
-        num_discs = int(input("Entrez le nombre de disques souhaités (sup ou égal à 2) : "))
-#         num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités (sup ou égal à 2) : ")
+        num_discs = turtle.numinput("Nombre de disques", "Entrez le nombre de disques souhaités (sup ou égal à 2) : ")
     return int(num_discs)
 
 
@@ -18,8 +16,7 @@ def askForAutoPlay():
     """Demande au joueur s'il souhaite que le jeu se déroule automatiquement"""
     auto = None
     while auto != "o" and auto != "n":
-        auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
-        # auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
+        auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
     return auto == "o"
 
 def askForDifficulty(n: int):
@@ -29,8 +26,8 @@ def askForDifficulty(n: int):
     difficulties["medium"] = 2 ** n + 1
     difficulties["hard"] = 2 ** n - 1
 
-    diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
-    # diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    # diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
     if diff not in difficulties.keys():
         return difficulties["medium"]
     return difficulties[diff]
@@ -41,7 +38,7 @@ def lireCoords():
     num_start = None
     num_arrival = None
     while num_start != 0 and num_start != 1 and num_start != 2 and num_start != -1:
-        num_start = int(input("Tour de départ ? (0, 1, 2) "))
+        num_start = int(turtle.numinput("Choix de la tour", "Tour de départ ? (0, 1, 2) "))
 
     # Si le numéro de départ est -1, on arrête la partie
     if num_start == -1:
@@ -50,10 +47,10 @@ def lireCoords():
         else:
             print("D'accord, reprenons la partie !")
             while num_start != 0 and num_start != 1 and num_start != 2:
-                num_start = int(input("Tour de départ ? (0, 1, 2) "))
+                num_start = int(turtle.numinput("Choix de la tour", "Tour de départ ? (0, 1, 2) "))
 
     while num_arrival != 0 and num_arrival != 1 and num_arrival != 2:
-          num_arrival = int(input("Tour d'arrivée ? (0, 1, 2) "))
+          num_arrival = int(turtle.numinput("Choix de la tour", "Tour d'arrivée ? (0, 1, 2) "))
 
     return (num_start, num_arrival)
 
@@ -62,7 +59,7 @@ def veutArreterJeu():
     """Demande une confirmation au joueur quand il veut arrêter le jeu"""
     inp = -1
     while inp != "o" and inp != "n":
-        inp = input("Arrêter le jeu ? (o / n) ").lower()
+        inp = turtle.textinput("Arrêter le jeu ?", "Arrêter le jeu ? (o / n) ").lower()
     return inp == "o"
 
 
@@ -123,7 +120,7 @@ def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
         historiqueCoups[len(historiqueCoups)] = [row[:] for row in plateau]
 
         # On demande si le joueur veut annuler son coup, et on l'annule si oui
-        annulerCoup = input("Voulez vous annuler ce coup ? (o/n) ")
+        annulerCoup = turtle.textinput("Annuler le coup", "Voulez vous annuler ce coup ? (o/n) ")
         if annulerCoup == "o":
             plateau = coups.annulerDernierCoup(historiqueCoups)[coupsJoues]
             coupsJoues -= 1
