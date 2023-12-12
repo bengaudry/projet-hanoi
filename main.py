@@ -5,11 +5,13 @@ import graphisms
 import interaction
 import auto_play
 import threading
+import score
 
 
 def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
     diff = (time_end.tm_sec + time_end.tm_min * 60 + time_end.tm_hour * 3600) -(time_start.tm_sec + time_start.tm_min * 60 + time_start.tm_hour * 3600)
-    if diff == 1:
+    return round(diff/60, 1)
+    """ if diff == 1:
         return f"1 seconde"
     elif diff < 60:
         return f"{diff} secondes"
@@ -17,6 +19,7 @@ def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
         return f"1 minute"
     else:
         return f"{round(diff / 60)} minutes"
+        """
 
 
 # MAIN GAME PROCESS
@@ -27,6 +30,9 @@ turtle_thread = threading.Thread(target=lambda: graphisms.init())
 turtle_thread.start()
 turtle.title("Tours de Hanoi")
 turtle.hideturtle()
+
+#Création du dictionnaire des scores pour les prochaines parties
+scores_joueurs = {}
 
 while still_playing:
     print("Bienvenue dans les Tours de Hanoi")
@@ -60,11 +66,22 @@ while still_playing:
     else: # Le joueur à terminé le jeu (gagné ou perdu)
         if victoire:
             print("\nBravo vous avez gagné !")
+            nom_joueur = input("Entrez un nom pour sauvegarder votre score : ")
+            score.sauvScore(scores_joueurs, nom_joueur, num_discs, nombre_essais, formatDuration(time_start, time_end))
         else:
             print("\nVous avez perdu...")
         print(f"Nombre d'essais: {nombre_essais}")
         print(f"Il faut minimum {2**num_discs-1} essais pour réussir")
-        print(f"Durée de jeu : {formatDuration(time_start, time_end)}")
+        print(f"Durée de jeu : {formatDuration(time_start, time_end)} minutes")
+
+        #Affichage du tableau des scores
+        if input("\nAfficher le tableau des scores ? (o / n) ") == 'o':
+            nb_disques = int(input("Afficher les parties à combien de disques ? "))
+            score.affichageScore(scores_joueurs, nb_disques)
+
+        #Affichage du tableau des temps de réflexion
+        if input("\nAfficher le tableau des temps de réfelexion ? (o / n) ") == 'o':
+            score.affichageReflexion(scores_joueurs)
 
     ask_still_playing = input("\nRejouer ? (o / n) ")
     still_playing = ask_still_playing.lower() == "o"
