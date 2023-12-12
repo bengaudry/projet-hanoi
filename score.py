@@ -1,4 +1,9 @@
 def sauvScore(score_joueurs: dict[str, list[list[int]]], nom: str, nombre_disques: int, nombre_coups: int, temps_partie):
+    """Ajoute le score d'une partie dans un dictionnaire
+        :param score_joueurs: dictionnaire des parties
+        :param nom: nom du joueur"""
+
+    #Ajoute le nom du joueur, nombre de disques, nombre de coups et temps de jeu
     if nom in score_joueurs.keys():
         score_joueurs[nom].append([nombre_disques, nombre_coups, temps_partie])
     else:
@@ -6,8 +11,10 @@ def sauvScore(score_joueurs: dict[str, list[list[int]]], nom: str, nombre_disque
 
 
 def affichageScore(score_joueurs: dict[str, list[list[int]]], nombre_disques: int):
-    """Demande le dictionnaire de scores ainsi que le nombre de disques pour
-    afficher les scores des parties à n disques"""
+    """Affiche le score de toutes les parties pour un nombre de disques
+        :param score_joueurs: dictionnaire des scores
+        :param nombre_disques: choisir les parties à n disques"""
+   
     liste_scores = []
 
     # Ajouter tous les noms et scores à liste_scores
@@ -25,7 +32,7 @@ def affichageScore(score_joueurs: dict[str, list[list[int]]], nombre_disques: in
             if liste_scores[j][1] < liste_scores[min_index][1]:
                 min_index = j
 
-        # Échanger les éléments
+        # Échanger les éléments pour trier dans l'ordre croissant
         liste_scores[i], liste_scores[min_index] = liste_scores[min_index], liste_scores[i]
 
     # Affichage des scores
