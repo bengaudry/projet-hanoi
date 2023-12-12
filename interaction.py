@@ -16,10 +16,10 @@ def askForDiscsNumber():
 
 def askForAutoPlay():
     """Demande au joueur s'il souhaite que le jeu se déroule automatiquement"""
-    auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
+    auto = None
     while auto != "o" and auto != "n":
-        # auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
-        auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
+        auto = input("Souhaitez vous activer le jeu automatique ? (o/n) ")
+        # auto = turtle.textinput("Jeu auto", "Souhaitez vous activer le jeu automatique ? (o/n) ")
     return auto == "o"
 
 def askForDifficulty(n: int):
@@ -29,8 +29,8 @@ def askForDifficulty(n: int):
     difficulties["medium"] = 2 ** n + 1
     difficulties["hard"] = 2 ** n - 1
 
-    # diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
-    diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    diff = input(f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
+    # diff = turtle.textinput("Difficulté", f"Choisissez un niveau de difficulté : ({', '.join(difficulties)}) ")
     if diff not in difficulties.keys():
         return difficulties["medium"]
     return difficulties[diff]
@@ -109,7 +109,6 @@ def afficheCoupsRestants(coups, maxCoups):
 def boucleJeu(plateau: list[list[int] | list], n: int, maxCoups: int = None):
     coupsJoues = 0
     historiqueCoups = { 0: [row[:] for row in plateau] }
-    print(plateau, "plateau original")
 
     # On joue tant qu'il reste des essais et que l'on a pas gagné
     while not verifVictoire(plateau, n):

@@ -6,6 +6,8 @@ import interaction
 import auto_play
 import threading
 
+import score
+
 
 def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
     diff = (time_end.tm_sec + time_end.tm_min * 60 + time_end.tm_hour * 3600) -(time_start.tm_sec + time_start.tm_min * 60 + time_start.tm_hour * 3600)
@@ -21,6 +23,7 @@ def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
 
 # MAIN GAME PROCESS
 still_playing = True
+scores_joueurs = {}
 
 # On lance la fenêtre graphique turtle de manière asynchrone
 turtle_thread = threading.Thread(target=lambda: graphisms.init())
@@ -29,7 +32,7 @@ turtle.title("Tours de Hanoi")
 turtle.hideturtle()
 
 while still_playing:
-    print("Bienvenue dans les Tours de Hanoi")
+    print("\nBienvenue dans les Tours de Hanoi")
     # On récupère le nombre de disques sur le plateau que le joueur souhaite
     num_discs = interaction.askForDiscsNumber()
     plateau = board.init(num_discs)
@@ -53,6 +56,7 @@ while still_playing:
 
     # On récupère la date d'arrivée du jeu
     time_end = time.localtime()
+    temps_jeu = formatDuration(time_start, time_end)
 
     # Gestion de la fin du jeu
     if nombre_essais is None and victoire is None: # Le joueur à abandonné
@@ -64,8 +68,13 @@ while still_playing:
             print("\nVous avez perdu...")
         print(f"Nombre d'essais: {nombre_essais}")
         print(f"Il faut minimum {2**num_discs-1} essais pour réussir")
-        print(f"Durée de jeu : {formatDuration(time_start, time_end)}")
+        print(f"Durée de jeu : {temps_jeu}")
 
+    ask_sauv_score = input("\nSauvegarder ton score ? (o / n) ")
+    if ask_sauv_score.lower() == "o":
+        nom_joueur = input("Quel est ton nom ? ")
+        score.sauvScore(scores_joueurs, nom_joueur, num_discs, nombre_essais, temps_jeu)
+        score.affichageScore(scores_joueurs, num_discs )
     ask_still_playing = input("\nRejouer ? (o / n) ")
     still_playing = ask_still_playing.lower() == "o"
 
