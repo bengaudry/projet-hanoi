@@ -41,8 +41,9 @@ def reflexionMoy(score_joueurs: dict[str, list[list[int]]], nom: str):
     for partie in score_joueurs[nom]:
         total_coups += partie[1]
         total_temps += partie[2]
-    #retourne la moyenne en secondes
-    return round((total_coups/total_temps)*60)
+    # Retourne la moyenne de temps de réflexion par coup en secondes
+    return round((total_temps/total_coups)*60)
+
 
 def affichageReflexion(score_joueurs: dict[str, list[list[int]]]):
     #Ajouter à une liste tous les temps moyens de chaque joueur

@@ -8,7 +8,7 @@ import score
 
 
 def formatDuration(time_start: time.struct_time, time_end: time.struct_time):
-    diff = (time_end.tm_sec + time_end.tm_min * 60 + time_end.tm_hour * 3600) -(time_start.tm_sec + time_start.tm_min * 60 + time_start.tm_hour * 3600)
+    diff = (time_end.tm_sec + time_end.tm_min * 60 + time_end.tm_hour * 3600) - (time_start.tm_sec + time_start.tm_min * 60 + time_start.tm_hour * 3600)
     return round(diff/60, 1)
 
 
@@ -52,9 +52,9 @@ while still_playing:
     time_end = time.localtime()
 
     # Gestion de la fin du jeu
-    if nombre_essais is None and victoire is None: # Le joueur à abandonné
+    if nombre_essais is None and victoire is None:  # Le joueur à abandonné
         print(f"\nVous avez abandonné au bout de {formatDuration(time_start, time_end)}.")
-    else: # Le joueur à terminé le jeu (gagné ou perdu)
+    else:  # Le joueur à terminé le jeu (gagné ou perdu)
         if victoire:
             print("\nBravo vous avez gagné !")
             nom_joueur = turtle.textinput("Nom du joueur", "Entrez un nom pour sauvegarder votre score : ")
@@ -63,14 +63,14 @@ while still_playing:
             print("\nVous avez perdu...")
         print(f"Nombre d'essais: {nombre_essais}")
         print(f"Il faut minimum {2**num_discs-1} essais pour réussir")
-        print(f"Durée de jeu : {formatDuration(time_start, time_end)} minutes")
+        print(f"Durée de jeu: {formatDuration(time_start, time_end)} minutes")
 
-        #Affichage du tableau des scores
+        # Affichage du tableau des scores
         if turtle.textinput("Afficher les scores", "\nAfficher le tableau des scores ? (o / n) ") == 'o':
             nb_disques = int(turtle.numinput("Nombre de disques", "Pour combien de disques ? "))
             score.affichageScore(scores_joueurs, nb_disques)
 
-        #Affichage du tableau des temps de réflexion
+        # Affichage du tableau des temps de réflexion
         if turtle.textinput("Afficher les temps", "\nAfficher le tableau des temps de réfelexion ? (o / n) ") == 'o':
             score.affichageReflexion(scores_joueurs)
 
@@ -81,7 +81,6 @@ while still_playing:
     if not still_playing:
         turtle.bye()
         print("Au revoir !")
-        quit()
 
 # ===========================================================
 # MAIN GAME PROCESS END
